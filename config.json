@@ -1,0 +1,38 @@
+{
+  "commands": {
+    "quit": "ctrl+shift+caps lock"
+  },
+  "profiles": {
+    "preset_1": [
+      {
+        "mod_hotkey": "caps lock",
+        "key_remaps": [
+            {"src": "w", "dst": "up"},
+            {"src": "a", "dst": "left"},
+            {"src": "s", "dst": "down"},
+            {"src": "d", "dst": "right"}
+        ]
+      },
+      {
+        "mod_hotkey": "shift+caps lock",
+        "key_remaps": [
+            {"src": "w", "dst": "page up"},
+            {"src": "a", "dst": "home"},
+            {"src": "s", "dst": "page down"},
+            {"src": "d", "dst": "end"}
+        ]
+      }
+    ],
+    "profile_2": [
+      {
+        "mod_hotkey": "tab",
+        "key_remaps": [
+            {"src": "w", "dst": "up"},
+            {"src": "a", "dst": "left"},
+            {"src": "s", "dst": "down"},
+            {"src": "d", "dst": "right"}
+        ]
+      }
+    ]
+  }
+}
