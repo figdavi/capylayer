@@ -1,9 +1,14 @@
 import keyboard
 import json
 
+# A profile is made up of profile items
+# A profile item is made up of mod_hotkey, array of key remap and a boolean is_hotkey_active
+# A key remap contains a source key and a destination key
+
 config_file_name = "config.json"
+profile_name = "preset_1"
+profile_items = []
 quit_command = "ctrl+shift+caps lock" # Default
-profiles = []
 
 class KeyRemap:
     def __init__(self, key_src, key_dst):
@@ -13,11 +18,10 @@ class KeyRemap:
     def __repr__(self):
         return f"\n\t(key_src: {self.key_src}, key_dst: {self.key_dst})"        
 
-class Profile:
-    def __init__(self, mod_hotkey, key_remaps, is_active):
+class ProfileItem:
+    def __init__(self, mod_hotkey, key_remaps):
         self.mod_hotkey = mod_hotkey
         self.key_remaps = key_remaps
-        self.is_active = is_active
 
     def __repr__(self):
         return f"mod_key: {self.mod_hotkey }\nkey_remaps: {self.key_remaps}"
@@ -28,51 +32,57 @@ def read_config(file_name, profile_name):
 
     for config_key, config_value in config_json.items():
         if config_key == "profiles":
-            read_config_profiles(config_value, profile_name)
+            # reads one profile and its items
+            read_config_profile(config_value, profile_name)
         elif config_key == "commands":
             pass
 
-def read_config_profiles(config_profiles, profile_name):
-        for profile_json in config_profiles[profile_name]:
+def read_config_profile(config_profiles, profile_name):
+        profile = config_profiles[profile_name]
+        for profile_item in profile:
 
             # dict.get() returns None if key does not exist
-            current_mod_hotkey = profile_json.get('mod_hotkey')
+            current_mod_hotkey = profile_item.get('mod_hotkey')
 
             if current_mod_hotkey:
                 key_remaps = []
-                for key_remap in profile_json['key_remaps']:
+                for key_remap in profile_item['key_remaps']:
                     src = key_remap.get('src')
                     dst = key_remap.get('dst')
                     if src and dst:
                         key_remaps.append(KeyRemap(src, dst))
                 
                 if key_remaps:
-                    profiles.append(Profile(current_mod_hotkey, key_remaps, False))
+                    profile_items.append(ProfileItem(current_mod_hotkey, key_remaps))
 
             else:
                 print(f"\tNo 'mod_hotkey' found in {profile_name}.")
 
 
-def activate_symbol_layer():
-    for key_src, key_dst in key_mappings.items():
-        keyboard.remap_key(key_src, key_dst)
+def activate_symbol_layer(key_remaps):
+    for key_remap in key_remaps:
+        keyboard.remap_key(key_remap.key_src, key_remap.key_dst)
 
-def deactivate_symbol_layer():
-    for key in key_mappings.keys():
-        keyboard.unremap_key(key)
+def deactivate_symbol_layer(key_remaps):
+    for key_remap in key_remaps:
+        keyboard.unremap_key(key_remap.key_src)
 
 def handle_modifier_key(event):
-    if event.event_type == keyboard.KEY_DOWN and keyboard.is_pressed(modifier_key_name):
-        activate_symbol_layer()
-    elif event.event_type == keyboard.KEY_UP:
-        deactivate_symbol_layer() 
+    global profile_items
 
+    for profile_item in profile_items:
+        if event.name == profile_item.mod_hotkey:
+            if event.event_type == keyboard.KEY_DOWN and keyboard.is_pressed(profile_item.mod_hotkey):
+                activate_symbol_layer(profile_item.key_remaps)
+            elif event.event_type == keyboard.KEY_UP:
+                deactivate_symbol_layer(profile_item.key_remaps)
+		
 
+# read one profile
+read_config(config_file_name, profile_name)
 
-read_config(config_file_name, "preset_1")
-
-for profile in profiles:
-    print(profile)
+for profile_item in profile_items:
+    print(profile_item)
 
 # keyboard.hook_key(key, callback, suppress=False):Hooks key up and key down events for a single key
 keyboard.hook(handle_modifier_key)
