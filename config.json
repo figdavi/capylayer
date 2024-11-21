@@ -14,12 +14,12 @@
         ]
       },
       {
-        "mod_hotkey": "shift+caps lock",
+        "mod_hotkey": "left ctrl",
         "key_remaps": [
-            {"src": "w", "dst": "page up"},
-            {"src": "a", "dst": "home"},
-            {"src": "s", "dst": "page down"},
-            {"src": "d", "dst": "end"}
+            {"src": "q", "dst": "home"},
+            {"src": "e", "dst": "end"},
+            {"src": "f", "dst": "page up"},
+            {"src": "r", "dst": "page down"}
         ]
       }
     ],

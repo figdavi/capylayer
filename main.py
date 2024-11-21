@@ -1,6 +1,8 @@
 import keyboard
 import json
 
+# Todo: garantee profile key names exist, add a cli interface and add option of lock or switch behaviour for every mod_hotkey
+
 # A profile is made up of profile items
 # A profile item is made up of mod_hotkey, array of key remap and a boolean is_hotkey_active
 # A key remap contains a source key and a destination key
@@ -22,6 +24,7 @@ class ProfileItem:
     def __init__(self, mod_hotkey, key_remaps):
         self.mod_hotkey = mod_hotkey
         self.key_remaps = key_remaps
+        self.is_hotkey_active = False
 
     def __repr__(self):
         return f"mod_key: {self.mod_hotkey }\nkey_remaps: {self.key_remaps}"
@@ -72,11 +75,17 @@ def handle_modifier_key(event):
 
     for profile_item in profile_items:
         if event.name == profile_item.mod_hotkey:
-            if event.event_type == keyboard.KEY_DOWN and keyboard.is_pressed(profile_item.mod_hotkey):
-                activate_symbol_layer(profile_item.key_remaps)
+            if event.event_type == keyboard.KEY_DOWN:
+                if not profile_item.is_hotkey_active:
+                    profile_item.is_hotkey_active = True
+                    activate_symbol_layer(profile_item.key_remaps)
             elif event.event_type == keyboard.KEY_UP:
-                deactivate_symbol_layer(profile_item.key_remaps)
-		
+                if profile_item.is_hotkey_active:
+                    profile_item.is_hotkey_active = False
+                    deactivate_symbol_layer(profile_item.key_remaps)
+
+
+
 
 # read one profile
 read_config(config_file_name, profile_name)
@@ -84,7 +93,7 @@ read_config(config_file_name, profile_name)
 for profile_item in profile_items:
     print(profile_item)
 
-# keyboard.hook_key(key, callback, suppress=False):Hooks key up and key down events for a single key
+
 keyboard.hook(handle_modifier_key)
 
 keyboard.wait(quit_command)
