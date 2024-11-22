@@ -1,0 +1,9 @@
+{
+    "commands": [
+    {
+        "name": "quit",
+        "hotkey": "ctrl+shift+caps lock",
+        "description": "Exit the application"
+    }
+    ]
+}
