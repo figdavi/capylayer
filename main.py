@@ -1,66 +1,66 @@
 import keyboard
 import json
 
-# Todo: garantee profile key names exist, add a cli interface and add option of lock or switch behaviour for every mod_hotkey
+from config.config_class import Profile, KeyRemapsItem, MappingsItem, CommandsItem
+
+# Todo: garantee profile key names exist, add a cli, add option of lock or switch behaviour for every mod_hotkey
+# cli should have options to add, remove, switch profile, view current profile, change mod_hotkey, change remappings,
+# if possible add profiles without hotkeys, only remappings
 
 # A profile is made up of profile items
 # A profile item is made up of mod_hotkey, array of key remap and a boolean is_hotkey_active
 # A key remap contains a source key and a destination key
 
-config_file_name = "config.json"
-profile_name = "preset_1"
-profile_items = []
-quit_command = "ctrl+shift+caps lock" # Default
+config_path = "./config/"
+profiles_path = config_path + "profiles.json"
+commands_path = config_path + "commands.json"
 
-class KeyRemap:
-    def __init__(self, key_src, key_dst):
-        self.key_src = key_src
-        self.key_dst = key_dst
+def get_active_profile(profiles_json):
+    active_profile_name = profiles_json["active_profile"]
+    for profile in profiles_json["profiles"]:
+        if profile["name"] == active_profile_name:
+            return profile
+
+def read_config_profile(profiles_path):
+    with open(profiles_path, 'r') as profiles_file:
+        profiles_json = json.load(profiles_file)
     
-    def __repr__(self):
-        return f"\n\t(key_src: {self.key_src}, key_dst: {self.key_dst})"        
+    active_profile = get_active_profile(profiles_json)
+    key_remaps = []
+    mappings = []
+    profile_name = active_profile.get("name")
 
-class ProfileItem:
-    def __init__(self, mod_hotkey, key_remaps):
-        self.mod_hotkey = mod_hotkey
-        self.key_remaps = key_remaps
-        self.is_hotkey_active = False
+    for mapping in active_profile["mappings"]:
+        mod_hotkey = mapping.get("mod_hotkey")
+        mod_type = mapping.get("mod_type")
 
-    def __repr__(self):
-        return f"mod_key: {self.mod_hotkey }\nkey_remaps: {self.key_remaps}"
+        for key_remap in mapping["key_remaps"]:
+            src = key_remap.get("key_src")
+            dst = key_remap.get("key_dst")
 
-def read_config(file_name, profile_name):
-    with open(file_name, 'r') as config_file:
-        config_json = json.load(config_file)
+            key_remaps.append(KeyRemapsItem(src, dst))
+        
+        mappings.append(MappingsItem(mod_hotkey, mod_type, key_remaps))
 
-    for config_key, config_value in config_json.items():
-        if config_key == "profiles":
-            # reads one profile and its items
-            read_config_profile(config_value, profile_name)
-        elif config_key == "commands":
-            pass
+    profile = Profile(profile_name, mappings)
 
-def read_config_profile(config_profiles, profile_name):
-        profile = config_profiles[profile_name]
-        for profile_item in profile:
+    return profile
+            
 
-            # dict.get() returns None if key does not exist
-            current_mod_hotkey = profile_item.get('mod_hotkey')
+def read_config_commands(commands_path):
+    with open(commands_path, 'r') as commands_file:
+        commands_json = json.load(commands_file)
 
-            if current_mod_hotkey:
-                key_remaps = []
-                for key_remap in profile_item['key_remaps']:
-                    src = key_remap.get('src')
-                    dst = key_remap.get('dst')
-                    if src and dst:
-                        key_remaps.append(KeyRemap(src, dst))
-                
-                if key_remaps:
-                    profile_items.append(ProfileItem(current_mod_hotkey, key_remaps))
+    commands = {}
 
-            else:
-                print(f"\tNo 'mod_hotkey' found in {profile_name}.")
+    for command in commands_json["commands"]:
+        name = command.get("name")
+        hotkey = command.get("hotkey")
+        description = command.get("description")
 
+        commands[name] = CommandsItem(hotkey, description)
+    
+    return commands
 
 def activate_symbol_layer(key_remaps):
     for key_remap in key_remaps:
@@ -71,29 +71,23 @@ def deactivate_symbol_layer(key_remaps):
         keyboard.unremap_key(key_remap.key_src)
 
 def handle_modifier_key(event):
-    global profile_items
+    global profile
 
-    for profile_item in profile_items:
-        if event.name == profile_item.mod_hotkey:
+    for mapping in profile.mappings:
+        if event.name == mapping.mod_hotkey:
             if event.event_type == keyboard.KEY_DOWN:
-                if not profile_item.is_hotkey_active:
-                    profile_item.is_hotkey_active = True
-                    activate_symbol_layer(profile_item.key_remaps)
+                if not mapping.is_active:
+                    mapping.is_active = True
+                    activate_symbol_layer(mapping.key_remaps)
             elif event.event_type == keyboard.KEY_UP:
-                if profile_item.is_hotkey_active:
-                    profile_item.is_hotkey_active = False
-                    deactivate_symbol_layer(profile_item.key_remaps)
+                if mapping.is_active:
+                    mapping.is_active = False
+                    deactivate_symbol_layer(mapping.key_remaps)
 
 
 
-
-# read one profile
-read_config(config_file_name, profile_name)
-
-for profile_item in profile_items:
-    print(profile_item)
-
+profile = read_config_profile(profiles_path)
+commands = read_config_commands(commands_path)
 
 keyboard.hook(handle_modifier_key)
-
-keyboard.wait(quit_command)
+keyboard.wait(commands["quit"].hotkey) 
