@@ -25,6 +25,5 @@ class Profile:
         return f"Profile name: {self.name}\nMappings: {self.mappings}"
 
 class CommandsItem:
-    def __init__(self, hotkey, description):
+    def __init__(self, hotkey):
         self.hotkey = hotkey
-        self.description = description
