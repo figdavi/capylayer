@@ -24,7 +24,8 @@ A key remap consists of:
 - A **source key** (the key being remapped).
 - A **destination key** (the key it becomes when the key layer is active).
 
-#### Example:
+```
+Example:
 - Let a profile have 1 mapping:
 - Let the Mapping be:
     - Modifier hotkey ([shift](#modifier-hotkey-modes) mode): `Shift`
@@ -42,6 +43,7 @@ While `Shift` is pressed, the key layer is active:
    ___________   /\  a  \\  s  \\  d  \     
    \   Shift   \ \ \_____\\_____\\_____\    
     \___________\ \/_____//_____//_____/  
+```
 
 ## References
 For an in-depth understanding of key layers, refer to:
