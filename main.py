@@ -1,5 +1,5 @@
 # File containing profile and commands from config folder
-# it calls handle_modifier_key in utils.py everytime a key is pressed
+# it calls handle_modifier_key in handlers.py everytime a key is pressed
 
 import keyboard
 from handlers import handle_modifier_key

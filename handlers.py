@@ -9,13 +9,13 @@ def set_key_layer_state(key_remaps, activate):
         else:
             keyboard.unremap_key(key_remap.key_src)
 
-# Activate/deactivate key layer if mod_hotkey pressed based on lock mode logic
+# Call set_key_layer_state() if mod_hotkey pressed based on lock mode logic
 def handle_modifier_lock(event, mapping):
     if event.event_type == keyboard.KEY_DOWN:
         mapping.is_active = not mapping.is_active
         set_key_layer_state(mapping.key_remaps, mapping.is_active)
 
-# Activate/deactivate key layer if mod_hotkey pressed based on switch mode logic
+# Call set_key_layer_state() if mod_hotkey pressed based on switch mode logic
 def handle_modifier_switch(event, mapping):
     if event.event_type == keyboard.KEY_DOWN:
         if not mapping.is_active:
