@@ -1,35 +1,35 @@
 {
-    "active_profile": "preset_2",
-    "profiles": [
-    {
-        "name": "preset_1",
-        "mappings": [
-        {
-            "mod_hotkey": "caps lock",
-            "mod_type": "switch",
-            "key_remaps": [
-                {"key_src": "w", "key_dst": "up"},
-                {"key_src": "a", "key_dst": "left"},
-                {"key_src": "s", "key_dst": "down"},
-                {"key_src": "d", "key_dst": "right"}
+    "active_profile": "preset_1",
+    "profiles": {
+        "preset_1": {
+            "name": "preset_1",
+            "mappings": [
+            {
+                "mod_hotkey": "caps lock",
+                "mod_type": "switch",
+                "key_remaps": [
+                    {"key_src": "w", "key_dst": "up"},
+                    {"key_src": "a", "key_dst": "left"},
+                    {"key_src": "s", "key_dst": "down"},
+                    {"key_src": "d", "key_dst": "right"}
+                ]
+            }
+            ]
+        },
+        "preset_2": {
+            "name": "preset_1",
+            "mappings": [
+            {
+                "mod_hotkey": "caps lock",
+                "mod_type": "lock",
+                "key_remaps": [
+                    {"key_src": "w", "key_dst": "up"},
+                    {"key_src": "a", "key_dst": "left"},
+                    {"key_src": "s", "key_dst": "down"},
+                    {"key_src": "d", "key_dst": "right"}
+                ]
+            }
             ]
         }
-        ]
-    },
-    {
-        "name": "preset_2",
-        "mappings": [
-        {
-            "mod_hotkey": "caps lock",
-            "mod_type": "lock",
-            "key_remaps": [
-                {"key_src": "w", "key_dst": "up"},
-                {"key_src": "a", "key_dst": "left"},
-                {"key_src": "s", "key_dst": "down"},
-                {"key_src": "d", "key_dst": "right"}
-            ]
-        }
-        ]
-      }
-    ]
+    }
 }
