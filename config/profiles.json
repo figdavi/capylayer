@@ -6,7 +6,7 @@
             "mappings": [
             {
                 "mod_hotkey": "caps lock",
-                "mod_type": "switch",
+                "mod_hotkey_mode": "switch",
                 "key_remaps": [
                     {"key_src": "w", "key_dst": "up"},
                     {"key_src": "a", "key_dst": "left"},
@@ -21,7 +21,7 @@
             "mappings": [
             {
                 "mod_hotkey": "caps lock",
-                "mod_type": "lock",
+                "mod_hotkey_mode": "lock",
                 "key_remaps": [
                     {"key_src": "w", "key_dst": "up"},
                     {"key_src": "a", "key_dst": "left"},
