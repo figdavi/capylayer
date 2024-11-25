@@ -1,8 +1,8 @@
 {
-    "commands": {
-        "quit":  {
-            "name": "quit",
-            "hotkey": "ctrl+shift+caps lock"
-        }
+    "quit": {
+        "hotkey": "ctrl+shift+caps lock"
+    },
+    "test": {
+        "hotkey":"ctrl+shift+t"
     }
 }

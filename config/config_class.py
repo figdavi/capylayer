@@ -1,76 +1,84 @@
 # File contaning profiles and commands classes (imported in utils.py)
-
+# These classes and their methods are designed to read and store data from JSON files.
 # For better understanding, see profiles.json and commands.json files
-# These classes and its methods are made to read and store them
+
+from typing import Union
+
+# Type alias
+type KeyRemapsData = list[dict[str, str]]
+type MappingsValuesData = list[dict[str, Union[str, KeyRemapsData]]]
+type ProfileValuesData = dict[str, dict[str, MappingsValuesData]]
+type DictCommand = dict[str, dict[str, str]]
+
 
 class KeyRemapsItem:
-    def __init__(self, key_src, key_dst):
+    def __init__(self, key_src: str, key_dst: str) -> None:
         self.key_src = key_src
         self.key_dst = key_dst
     
-    # Returns a list of KeyRemapsItem containing key source and key destination
     @staticmethod
-    def from_json(key_remaps_json):
+    def from_json_dict(key_remaps: KeyRemapsData) -> list["KeyRemapsItem"]:
         return [
             KeyRemapsItem(
                 key_remap.get("key_src", ""), 
                 key_remap.get("key_dst", "")
             )
-            for key_remap in key_remaps_json
+            for key_remap in key_remaps
         ]
 
-    def __repr__(self):
-        return f"\n\t(Key source: {self.key_src}, Key destination: {self.key_dst})"   
+    def __repr__(self) -> str:
+        return f"\n\t(key_src: {self.key_src}, key_dst: {self.key_dst})"   
     
 class MappingsItem:
-    def __init__(self, mod_hotkey, mod_hotkey_mode, key_remaps):
+    def __init__(self, mod_hotkey: str, mod_hotkey_mode: str, key_remaps: list["KeyRemapsItem"]):
         self.mod_hotkey = mod_hotkey
         self.mod_hotkey_mode = mod_hotkey_mode
         self.key_remaps = key_remaps
         self.is_active = False 
 
-    # Returns a list of MappingsItem containing a modifier hotkey, modifier hotkey mode (switch or lock) and a list of KeyRemapsItem
     @staticmethod
-    def from_json(mappings_json):
+    def from_json_dict(mappings: MappingsValuesData) -> list["MappingsItem"]:
         return [
              MappingsItem(
                 mod_hotkey = mapping.get("mod_hotkey", ""),
                 mod_hotkey_mode = mapping.get("mod_hotkey_mode", ""),
-                key_remaps = KeyRemapsItem.from_json(mapping["key_remaps"])
+                key_remaps = KeyRemapsItem.from_json_dict(mapping.get("key_remaps", []))
             )
-            for mapping in mappings_json
+            for mapping in mappings
         ]
        
         
-    def __repr__(self):
-        return f"Modifier hotkey: {self.mod_hotkey}\nModifier hotkey mode: {self.mod_hotkey_mode}\nKey remaps: {self.key_remaps}"    
+    def __repr__(self) -> str:
+        return f"\nmod_hotkey: {self.mod_hotkey}\nmod_hotkey_mode: {self.mod_hotkey_mode}\nKey remaps: {self.key_remaps}"    
 
 class Profile:
-    def __init__(self, name, mappings):
+    def __init__(self, name: str, mappings: list["MappingsItem"]) -> None:
         self.name = name
         self.mappings = mappings
 
-    def __repr__(self):
-        return f"Profile name: {self.name}\nMappings: {self.mappings}"
-    
-    # Returns an instance of Profile class contaning the profile name and a list of MappingsItem
+    def __repr__(self) -> str:
+        return f"\nProfile name: {self.name}\nMappings: {self.mappings}"
+
     @staticmethod
-    def from_json(profile_json):
+    def from_json_dict(active_profile_name: str, active_profile: ProfileValuesData) -> "Profile":
         return Profile(
-            profile_json.get("name", ""), 
-            MappingsItem.from_json(profile_json["mappings"])
+            active_profile_name, 
+            MappingsItem.from_json_dict(active_profile.get("mappings", []))
         )
 
 class CommandsItem:
-    def __init__(self, hotkey):
+    def __init__(self, hotkey: str) -> None:
         self.hotkey = hotkey
 
-    # Returns a **dictionary** where key = command name : value = instance of CommandsItem class
+    def __repr__(self) -> str:
+        return f"\nhotkey: {self.hotkey}\n"
+    
+class DictCommands:
     @staticmethod
-    def from_json(commands_json):
+    def from_json_dict(commands: DictCommand) -> dict[str, "CommandsItem"]:
         return {
-            command.get("name"): CommandsItem(
-                command.get("hotkey")
+            command_name: CommandsItem(
+                command_values.get("hotkey", "")
             )
-            for command in commands_json["commands"].values()
+            for command_name, command_values in commands.items()
         }
