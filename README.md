@@ -1,10 +1,10 @@
 # Layermp
-A simple Python tool that uses [keyboard](https://github.com/boppreh/keyboard/) library to create **key layers**.
+A simple Python tool that uses the [keyboard](https://github.com/boppreh/keyboard/) library to create **key layers**.
 
 ## Features
 - **Configurable modifier hotkeys:** Define modifier hotkeys to activate key layers based on [modes](#modifier-hotkey-modes).
 - **Layer-based key remapping:** Map keys dynamically to different actions using key layers.
-- **Customizable profiles**: Easily add, remove, edit and switch between profiles.
+- **Customizable profiles**: Easily create, delete, modify and transition between profiles.
 
 ## Modifier Hotkey Modes:
 1. **Switch**:
@@ -50,15 +50,21 @@ While `CapsLock` is held, the key layer is active (Switch mode):
     \ __________\ \/_____//_____//_____/  
 ```
 
+## Usage
+
+**Note:** 
+- Python 3.12+ needed ([install page](https://www.python.org/downloads/))
+- Keyboard library needed ([install page](https://github.com/boppreh/keyboard/?tab=readme-ov-file#usage))
 
 
-# Future Improvements
-Currently, Layermp can only be used if you manually modify the json files in the config folder and then run `python main.py`
+Currently, Layermp can only be used if you manually modify the json files in the config folder and then run (in the main.py folder):
+```
+python main.py
+```
 
-**Note:** Python 3.12+ needed
-
-- Add CLI with [Typer](https://github.com/fastapi/typer) + [Rich](https://github.com/Textualize/rich)
-- Design a way to check if key names exist as keys (keyboard library doesn't support this by default)
+## Future Improvements
+- Add a CLI with [Typer](https://github.com/fastapi/typer) + [Rich](https://github.com/Textualize/rich)
+- Design a way to check if key names exist as keys (keyboard library doesn't have a support to this by default)
 - Implement better error handling
 - Create a pt-br README
 
