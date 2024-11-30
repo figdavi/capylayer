@@ -2,16 +2,18 @@
 # most functions call methods from config/config_class.py classes
 
 import json
-from typing import Union
-from config.config_class import Profile, DictCommands, CommandsItem
+from typing import TypeAlias
+from config.config_class import Profile, DictCommandsItem, CommandsItem
 
-type KeyRemapsData = list[dict[str, str]]
-type MappingsData = dict[str, list[dict[str, Union[str, KeyRemapsData]]]]
-type ProfileData = dict[str, MappingsData]
-type ProfilesData = dict[str, Union[str, ProfileData]]
+# Type alias
+KeyRemapsValues: TypeAlias = list[dict[str, str]]
+ModHotkeyValues: TypeAlias = list[str]
+KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | KeyRemapsValues]]
+ProfilesValues: TypeAlias = dict[str, KeyLayersValues]
+ProfilesJson: TypeAlias = dict[str, str | ProfilesValues]
 
 
-def load_read_json(file_json_path: str) -> Union[None, ProfilesData]:
+def load_read_json(file_json_path: str) -> ProfilesJson | None:
     try:
         with open(file_json_path, 'r') as file_json:
             return json.load(file_json)
@@ -25,13 +27,13 @@ def load_read_json(file_json_path: str) -> Union[None, ProfilesData]:
         print(f"Error: {e}")
         return None
 
-def read_config_profile(profiles_json_path: str) -> Union[None, Profile]:
+def read_config_profile(profiles_json_path: str) -> None | Profile:
     profiles_json = load_read_json(profiles_json_path)
     if profiles_json is None:
         return None
     
     profiles = profiles_json.get("profiles", {})
-    if not profiles_json:
+    if not profiles:
         print(f"Error: No profiles found in {profiles_json_path}")
         return None
 
@@ -47,15 +49,13 @@ def read_config_profile(profiles_json_path: str) -> Union[None, Profile]:
         active_profile_name = next(iter(profiles))
         active_profile = profiles.get(active_profile_name, {})
 
-
     return Profile.from_json_dict(active_profile_name, active_profile)
 
-def read_config_commands(commands_json_path: str) -> Union[None, dict[str, CommandsItem]]:
-    # dict[str, CommandsItem] makes possible to access commands by 
-    #  random access with the command's name
+def read_config_commands(commands_json_path: str) -> None | dict[str, CommandsItem]:
+    # dict[str, CommandsItem] to index commands
 
     commands_json = load_read_json(commands_json_path)
     if commands_json is None:
         return None
-     
-    return DictCommands.from_json_dict(commands_json)
+    
+    return DictCommandsItem.from_json_dict(commands_json)

@@ -1,8 +1,5 @@
 {
     "quit": {
         "hotkey": "ctrl+shift+caps lock"
-    },
-    "test": {
-        "hotkey":"ctrl+shift+t"
     }
 }
