@@ -1,7 +1,8 @@
 {
-    "active_profile_name": "preset_1",
+    "active_profile_name": "dvorak",
     "profiles": {
         "preset_1": {
+            "name": "preset_1",
             "key_layers": [
                 {
                     "mod_hotkey": ["caps lock"],
@@ -16,6 +17,7 @@
             ]
         },
         "dvorak": {
+            "name": "dvorak",
             "key_layers": [
                 {
                     "mod_hotkey": ["shift", "caps lock"],

@@ -1,15 +1,11 @@
 # File containing key handling and key remapping functions (imported in main.py)
 import keyboard
-from config.config_class import KeyLayersItem, KeyRemapsItem
+from config.config_class import KeyLayersItem, KeyRemapsItem, SWITCH_MODE_NAME, LOCK_MODE_NAME
 
 def set_key_layer_state(key_remaps: list[KeyRemapsItem], activate: bool) -> None:
     # Map/unmap key layer depending on activate value
 
     for key_remap in key_remaps:
-        if not key_remap.key_src or not key_remap.key_dst:
-            print(f"Error: Missing source key or destination key in remap: {key_remap}")
-            continue
-
         if activate:
             keyboard.remap_key(key_remap.key_src, key_remap.key_dst)
         else:
@@ -18,6 +14,8 @@ def set_key_layer_state(key_remaps: list[KeyRemapsItem], activate: bool) -> None
 def handle_modifier_lock(key_layer: KeyLayersItem) -> None:   
     # Calls set_key_layer_state() based on lock mode logic
 
+    # Checks a dictionary "mod_hotkey": key, unused press 
+    # All presses are "used" when a key layer activates and restored on key release
     if all(key_layer.mod_hotkey.values()):
         key_layer.is_active = not key_layer.is_active
         set_key_layer_state(key_layer.key_remaps, key_layer.is_active)
@@ -28,6 +26,8 @@ def handle_modifier_lock(key_layer: KeyLayersItem) -> None:
 def handle_modifier_switch(key_layer: KeyLayersItem) -> None:   
     # Calls set_key_layer_state() based on switch mode logic
 
+    # Checks a dictionary "mod_hotkey": key, being pressed
+    # Layer activates when all keys are being pressed
     if all(key_layer.mod_hotkey.values()):
         if not key_layer.is_active:
             key_layer.is_active = True
@@ -40,9 +40,9 @@ def handle_modifier_switch(key_layer: KeyLayersItem) -> None:
 def handle_mod_mode(key_layer: KeyLayersItem) -> None:   
     # Calls corresponding handle function based on modifier hotkey mode
 
-    if key_layer.mod_mode == "switch":
+    if key_layer.mod_mode == SWITCH_MODE_NAME:
         handle_modifier_switch(key_layer)   
-    elif key_layer.mod_mode == "lock":
+    elif key_layer.mod_mode == LOCK_MODE_NAME:
         handle_modifier_lock(key_layer)
     else:   
         print(f"Error: hotkey {key_layer.mod_hotkey} has unknown modifier hotkey mode: {key_layer.mod_mode}")

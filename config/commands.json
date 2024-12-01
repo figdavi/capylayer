@@ -1,5 +1,5 @@
 {
     "quit": {
-        "hotkey": "ctrl+shift+caps lock"
+        "hotkey": ["ctrl", "shift", "caps lock"]
     }
 }

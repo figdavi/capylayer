@@ -48,8 +48,9 @@ While `CapsLock` is **held**, the key layer is active (Switch mode):
 ## Usage
 
 ### Requirements 
-- Python 3.12+ needed ([Download Python](https://www.python.org/downloads/))
+- Python 3.12+ needed ([Download Page](https://www.python.org/downloads/))
 - Keyboard library needed ([GitHub Repository](https://github.com/boppreh/keyboard/?tab=readme-ov-file#usage))
+- Pydantic library needed ([Install Page](https://docs.pydantic.dev/latest/install/))
 
 
 **Note:** Currently, Layermp can only be used if you manually modify the json files in the config folder.
@@ -70,7 +71,8 @@ python main.py
 - Add a CLI with [Typer](https://github.com/fastapi/typer) + [Rich](https://github.com/Textualize/rich)
 - Design a way to check if key names exist as keys (keyboard library doesn't have a support to this by default)
 - Add hotkey remapping support
-- Check json files structure before reading to classes
+- Handle active_profile_name and commands quit errors through json file (write to json file and reread)
+- Split profiles.json into single files for each profile
 - Create a pt-br README
 
 ## References
