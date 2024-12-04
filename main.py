@@ -1,6 +1,3 @@
-# File containing profile and commands from config folder
-# it calls handle_modifier_key in handlers.py everytime a key is pressed
-
 import keyboard
 from handlers import handle_mod_hotkey
 from utils import read_config_profile, read_config_commands

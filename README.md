@@ -70,12 +70,10 @@ python main.py
 ## Future Improvements
 - Add a CLI with [Typer](https://github.com/fastapi/typer) + [Rich](https://github.com/Textualize/rich)
 - Design a way to check if key names exist as keys (keyboard library doesn't have a support to this by default)
-- Add hotkey remapping support
-- Handle active_profile_name and commands quit errors through json file (write to json file and reread)
-- Split profiles.json into single files for each profile
+- Document functions
 - Create a pt-br README
 
-## References
+## Related Articles
 For an in-depth understanding of key layers, refer to:
 - [Extend layers by Dreymar](https://dreymar.colemak.org/layers-extend.html)
 - [Designing a Symbol Layer by Pascal Getreuer](https://getreuer.info/posts/keyboards/symbol-layer/index.html)

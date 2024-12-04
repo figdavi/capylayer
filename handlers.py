@@ -1,4 +1,3 @@
-# File containing key handling and key remapping functions (imported in main.py)
 import keyboard
 from config.config_class import KeyLayersItem, KeyRemapsItem, SWITCH_MODE_NAME, LOCK_MODE_NAME
 
@@ -44,9 +43,6 @@ def handle_mod_mode(key_layer: KeyLayersItem) -> None:
         handle_modifier_switch(key_layer)   
     elif key_layer.mod_mode == LOCK_MODE_NAME:
         handle_modifier_lock(key_layer)
-    else:   
-        print(f"Error: hotkey {key_layer.mod_hotkey} has unknown modifier hotkey mode: {key_layer.mod_mode}")
-        return None
 
 def handle_mod_hotkey(event: keyboard.KeyboardEvent, key_layers: list[KeyLayersItem]) -> None:
     # Handle key events to track press and release of keys of modifier hotkey

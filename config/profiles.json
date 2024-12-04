@@ -1,17 +1,31 @@
 {
-    "active_profile_name": "dvorak",
+    "active_profile_name": "preset_1",
     "profiles": {
         "preset_1": {
             "name": "preset_1",
             "key_layers": [
                 {
-                    "mod_hotkey": ["caps lock"],
+                    "mod_hotkey": [
+                        "caps lock"
+                    ],
                     "mod_mode": "switch",
                     "key_remaps": [
-                        {"key_src": "w", "key_dst": "up"},
-                        {"key_src": "a", "key_dst": "left"},
-                        {"key_src": "s", "key_dst": "down"},
-                        {"key_src": "d", "key_dst": "right"}
+                        {
+                            "key_src": "w",
+                            "key_dst": "up"
+                        },
+                        {
+                            "key_src": "a",
+                            "key_dst": "left"
+                        },
+                        {
+                            "key_src": "s",
+                            "key_dst": "down"
+                        },
+                        {
+                            "key_src": "d",
+                            "key_dst": "right"
+                        }
                     ]
                 }
             ]
@@ -20,40 +34,136 @@
             "name": "dvorak",
             "key_layers": [
                 {
-                    "mod_hotkey": ["shift", "caps lock"],
+                    "mod_hotkey": [
+                        "shift",
+                        "caps lock"
+                    ],
                     "mod_mode": "lock",
                     "key_remaps": [
-                        {"key_src": "q", "key_dst": "'" },
-                        {"key_src": "w", "key_dst": "," },
-                        {"key_src": "e", "key_dst": "." },
-                        {"key_src": "r", "key_dst": "p" },
-                        {"key_src": "t", "key_dst": "y" },
-                        {"key_src": "y", "key_dst": "f" },
-                        {"key_src": "u", "key_dst": "g" },
-                        {"key_src": "i", "key_dst": "c" },
-                        {"key_src": "o", "key_dst": "r" },
-                        {"key_src": "p", "key_dst": "l" },
-                        {"key_src": "a", "key_dst": "a" },
-                        {"key_src": "s", "key_dst": "o" },
-                        {"key_src": "d", "key_dst": "e" },
-                        {"key_src": "f", "key_dst": "u" },
-                        {"key_src": "g", "key_dst": "i" },
-                        {"key_src": "h", "key_dst": "d" },
-                        {"key_src": "j", "key_dst": "h" },
-                        {"key_src": "k", "key_dst": "t" },
-                        {"key_src": "l", "key_dst": "n" },
-                        {"key_src": ";", "key_dst": "s" },
-                        {"key_src": "'", "key_dst": "-" },
-                        {"key_src": "z", "key_dst": ";" },
-                        {"key_src": "x", "key_dst": "q" },
-                        {"key_src": "c", "key_dst": "j" },
-                        {"key_src": "v", "key_dst": "k" },
-                        {"key_src": "b", "key_dst": "x" },
-                        {"key_src": "n", "key_dst": "b" },
-                        {"key_src": "m", "key_dst": "m" },
-                        {"key_src": ",", "key_dst": "w" },
-                        {"key_src": ".", "key_dst": "v" },
-                        {"key_src": "/", "key_dst": "z" }
+                        {
+                            "key_src": "q",
+                            "key_dst": "'"
+                        },
+                        {
+                            "key_src": "w",
+                            "key_dst": ","
+                        },
+                        {
+                            "key_src": "e",
+                            "key_dst": "."
+                        },
+                        {
+                            "key_src": "r",
+                            "key_dst": "p"
+                        },
+                        {
+                            "key_src": "t",
+                            "key_dst": "y"
+                        },
+                        {
+                            "key_src": "y",
+                            "key_dst": "f"
+                        },
+                        {
+                            "key_src": "u",
+                            "key_dst": "g"
+                        },
+                        {
+                            "key_src": "i",
+                            "key_dst": "c"
+                        },
+                        {
+                            "key_src": "o",
+                            "key_dst": "r"
+                        },
+                        {
+                            "key_src": "p",
+                            "key_dst": "l"
+                        },
+                        {
+                            "key_src": "a",
+                            "key_dst": "a"
+                        },
+                        {
+                            "key_src": "s",
+                            "key_dst": "o"
+                        },
+                        {
+                            "key_src": "d",
+                            "key_dst": "e"
+                        },
+                        {
+                            "key_src": "f",
+                            "key_dst": "u"
+                        },
+                        {
+                            "key_src": "g",
+                            "key_dst": "i"
+                        },
+                        {
+                            "key_src": "h",
+                            "key_dst": "d"
+                        },
+                        {
+                            "key_src": "j",
+                            "key_dst": "h"
+                        },
+                        {
+                            "key_src": "k",
+                            "key_dst": "t"
+                        },
+                        {
+                            "key_src": "l",
+                            "key_dst": "n"
+                        },
+                        {
+                            "key_src": ";",
+                            "key_dst": "s"
+                        },
+                        {
+                            "key_src": "'",
+                            "key_dst": "-"
+                        },
+                        {
+                            "key_src": "z",
+                            "key_dst": ";"
+                        },
+                        {
+                            "key_src": "x",
+                            "key_dst": "q"
+                        },
+                        {
+                            "key_src": "c",
+                            "key_dst": "j"
+                        },
+                        {
+                            "key_src": "v",
+                            "key_dst": "k"
+                        },
+                        {
+                            "key_src": "b",
+                            "key_dst": "x"
+                        },
+                        {
+                            "key_src": "n",
+                            "key_dst": "b"
+                        },
+                        {
+                            "key_src": "m",
+                            "key_dst": "m"
+                        },
+                        {
+                            "key_src": ",",
+                            "key_dst": "w"
+                        },
+                        {
+                            "key_src": ".",
+                            "key_dst": "v"
+                        },
+                        {
+                            "key_src": "/",
+                            "key_dst": "z"
+                        }
                     ]
                 }
             ]

@@ -1,11 +1,8 @@
-# File contaning profiles and commands classes (imported in utils.py)
-# These classes and their methods are designed to read and store data from JSON files.
-
 from typing import TypeAlias
 from enum import Enum
 from pydantic import BaseModel, ConfigDict, constr, model_validator, Field
 
-# Type alias
+# Type aliases
 KeyRemapsValues: TypeAlias = list[dict[str, str]]
 ModHotkeyValues: TypeAlias = list[str]
 KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | KeyRemapsValues]]
