@@ -12,7 +12,9 @@ commands = read_config_commands(COMMANDS_PATH)
 print(f"Loaded profile: {profile}\n")
 print(f"Loaded commands: {commands}")
 
-keyboard.hook(lambda event:handle_mod_hotkey(event, profile.key_layers))
+if profile:
+    keyboard.hook(lambda event:handle_mod_hotkey(event, profile.key_layers))
 
-print(f"\nPress \"{commands.quit.hotkey}\" to quit")
-keyboard.wait(commands.quit.hotkey) 
+if commands:
+    print(f"\nPress \"{commands.quit.hotkey_str}\" to quit")
+    keyboard.wait(commands.quit.hotkey_str) 
