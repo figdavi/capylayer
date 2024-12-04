@@ -1,18 +1,14 @@
 import json
 from typing import TypeAlias, Any, Type
 from pydantic import ValidationError, BaseModel
-from config.models import Profiles, Profile, Commands
+from models.profiles import Profiles, Profile, ProfilesValues
+from models.commands import Commands, CommandItem
 
 # Type aliases
-KeyRemapsValues: TypeAlias = list[dict[str, str]]
-ModHotkeyValues: TypeAlias = list[str]
-KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | KeyRemapsValues]]
-ProfilesValues: TypeAlias = dict[str, KeyLayersValues]
 ProfilesJson: TypeAlias = dict[str, str | ProfilesValues]
 
 # Constants
-DEFAULT_QUIT_HOTKEY = "ctrl+shift+caps lock"
-
+DEFAULT_QUIT_HOTKEY = ["ctrl", "shift", "caps lock"]
 
 def read_json_file(json_file_path: str) -> str | None:
     """   
@@ -114,7 +110,7 @@ def edit_json_attribute(json_file_path: str, model_class: Type[BaseModel], attri
         print(f"Error: {e}")
         return None
 
-def read_config_profile(profiles_json_path: str) -> Profile | None:
+def read_json_profile(profiles_json_path: str) -> Profile | None:
     """   
     Reads the profiles file identifies the active profile, builds a profile 
         class model, validates it and returns it as an istance of Profile class
@@ -132,11 +128,6 @@ def read_config_profile(profiles_json_path: str) -> Profile | None:
         profiles = Profiles.model_validate_json(json.dumps(profiles_json))
 
         active_profile_name = profiles.active_profile_name
-        if not active_profile_name:
-            print(f"Error: No active profile found in {profiles_json_path}. Defaulting to first profile")
-            active_profile_name = next(iter(profiles.profiles))
-            if not edit_json_attribute(profiles_json_path, Profiles, "active_profile_name", active_profile_name):
-                return None
         if not any(active_profile_name == profile_names for profile_names in profiles.profiles.keys()):
             print(f"Error: No active profile called \"{active_profile_name}\" found in {profiles_json_path}. Defaulting to first profile")
             active_profile_name = next(iter(profiles.profiles))
@@ -150,7 +141,7 @@ def read_config_profile(profiles_json_path: str) -> Profile | None:
         print(f"Validation error:{err.json(indent = 4)}")
         return None
 
-def read_config_commands(commands_json_path: str) -> Commands | None:
+def read_json_commands(commands_json_path: str) -> Commands | None:
     """   
     Reads the commands file, builds a Commands class model, validates it and 
         returns it as an istance of Commands class
@@ -161,12 +152,11 @@ def read_config_commands(commands_json_path: str) -> Commands | None:
         Commands | None: An istance of Commands class
     """
     commands_json_str = read_json_file(commands_json_path)
+    if not commands_json_str:
+        return None
 
     try:
         commands = Commands.model_validate_json(json.dumps(commands_json_str))
-        if not commands.quit.hotkey_str:
-            print(f"Error: No hotkey found for quit command in {commands_json_path}. Defaulting to {DEFAULT_QUIT_HOTKEY}")
-            commands.quit.hotkey_str = DEFAULT_QUIT_HOTKEY
 
         return commands
     

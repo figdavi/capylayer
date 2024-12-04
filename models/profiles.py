@@ -1,18 +1,18 @@
+
 from typing import TypeAlias, Self
 from enum import Enum
-from pydantic import BaseModel, ConfigDict, constr, model_validator, Field, conlist
+from pydantic import BaseModel, ConfigDict, model_validator, constr, Field, conlist
 
 # Type aliases
 KeyRemapsValues: TypeAlias = list[dict[str, str]]
 ModHotkeyValues: TypeAlias = list[str]
 KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | KeyRemapsValues]]
 ProfilesValues: TypeAlias = dict[str, KeyLayersValues]
-CommandsJson: TypeAlias = dict[str, dict[str, str]]
 
 # Constants
 SWITCH_MODE_NAME = "switch"
 LOCK_MODE_NAME = "lock"
-HOTKEY_JOIN_CHARACTER = '+'
+
 
 class ConfigModel(BaseModel):
     model_config = ConfigDict(extra = 'forbid', strict = True)
@@ -54,25 +54,3 @@ class Profile(ConfigModel):
 class Profiles(ConfigModel):
     active_profile_name: str = ""
     profiles: dict[str, Profile]
-
-class CommandItem(ConfigModel):
-    hotkey: list[str]
-    hotkey_str: str = ""
-
-    @model_validator(mode = "after")
-    def build_command_hotkey_str(self) -> Self:
-        """
-        Transforms a list[str] to a str joined by "+" 
-            (keyboard library's format for hotkeys) 
-
-        Args: 
-            Self (CommandItem): an istance of CommandItem
-        Returns: 
-            CommandItem: an istance of CommandItem
-        """
-        self.hotkey_str = HOTKEY_JOIN_CHARACTER.join(self.hotkey)
-        return self
-
-
-class Commands(ConfigModel):
-    quit: CommandItem

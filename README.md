@@ -72,8 +72,6 @@ python main.py
 - Design a way to check if key names exist as keys (keyboard library doesn't have a support to this by default)
 - Add switch profile function
 - Error logging instead of printing
-- Review files structure
-- Unit testing
 - Create a pt-br README
 
 ## Related Articles
