@@ -70,8 +70,10 @@ python main.py
 ## Future Improvements
 - Add a CLI with [Typer](https://github.com/fastapi/typer) + [Rich](https://github.com/Textualize/rich)
 - Design a way to check if key names exist as keys (keyboard library doesn't have a support to this by default)
-- Add switch profile function
-- Error logging instead of printing
+- Error logging
+- Implement better printing format for profile and commands classes
+- Review exceptions and returning values
+- Review docstrings (simplify)
 - Create a pt-br README
 
 ## Related Articles

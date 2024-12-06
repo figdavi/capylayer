@@ -26,17 +26,17 @@ class ModModeEnum(str, Enum):
     lock = LOCK_MODE_NAME
 
 class KeyLayersItem(BaseModel):
-    mod_hotkey: conlist(str, min_length = 1) = Field(default_factory=list) # type: ignore
+    mod_hotkey: list[str]
     mod_hotkey_dict: dict[str, bool] = {}
     mod_mode: ModModeEnum
-    key_remaps: conlist(KeyRemapsItem, min_length = 1) = Field(default_factory=list)  # type: ignore
+    key_remaps: list[KeyRemapsItem]
     is_active: bool = False
         
     @model_validator(mode = "after")
     def build_mod_hotkey_dict(self) -> Self:
         """
         Builds a dictionary for easier tracking of key presses of keys 
-            contained in the modifier hotkey
+        contained in the modifier hotkey.
 
         Args: 
             Self (KeyLayersItem): an istance of KeyLayersItem
@@ -45,12 +45,19 @@ class KeyLayersItem(BaseModel):
         """
         self.mod_hotkey_dict = {key: False for key in self.mod_hotkey}
         return self
+    
+    def __setattr__(self, name, value):
+        """
+        Calls build_mod_hotkey_dict() if the attribute being set is mod_hotkey.
+        """
+        super().__setattr__(name, value)
+        if name == "mod_hotkey":
+            self.build_mod_hotkey_dict()
 
 class Profile(ConfigModel):
-    name: str = ""
+    name: str
     key_layers: list[KeyLayersItem]
 
-    
 class Profiles(ConfigModel):
-    active_profile_name: str = ""
+    active_profile_name: str
     profiles: dict[str, Profile]
