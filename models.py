@@ -1,6 +1,5 @@
 
-from typing import TypeAlias, Self
-from enum import Enum
+from typing import TypeAlias, Self, Literal
 from pydantic import BaseModel, ConfigDict, model_validator, constr, Field, conlist
 
 # Type aliases
@@ -8,40 +7,33 @@ KeyRemapsValues: TypeAlias = list[dict[str, str]]
 ModHotkeyValues: TypeAlias = list[str]
 KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | KeyRemapsValues]]
 ProfilesValues: TypeAlias = dict[str, KeyLayersValues]
+CommandsJson: TypeAlias = dict[str, dict[str, str]]
 
 # Constants
-SWITCH_MODE_NAME = "switch"
-LOCK_MODE_NAME = "lock"
+SWITCH_MODE_NAME: str = "switch"
+LOCK_MODE_NAME: str = "lock"
+HOTKEY_JOIN_CHARACTER = '+'
 
 
 class ConfigModel(BaseModel):
-    model_config = ConfigDict(extra = 'forbid', strict = True)
+    model_config = ConfigDict(extra = "forbid", strict = True, revalidate_instances="always")
 
 class KeyRemapsItem(ConfigModel):
     key_src: constr(min_length = 1) # type: ignore
     key_dst: constr(min_length = 1) # type: ignore
 
-class ModModeEnum(str, Enum):
-    switch = SWITCH_MODE_NAME
-    lock = LOCK_MODE_NAME
-
-class KeyLayersItem(BaseModel):
-    mod_hotkey: list[str]
-    mod_hotkey_dict: dict[str, bool] = {}
-    mod_mode: ModModeEnum
+class KeyLayersItem(ConfigModel):
+    mod_hotkey: conlist(str, min_length = 1) # type: ignore
+    mod_hotkey_dict: dict[str, bool] = Field(default = {}, repr = False, exclude = True)
+    mod_mode: Literal[SWITCH_MODE_NAME, LOCK_MODE_NAME] # type: ignore
     key_remaps: list[KeyRemapsItem]
-    is_active: bool = False
+    is_active: bool = Field(default = False, repr = False, exclude = True)
         
     @model_validator(mode = "after")
     def build_mod_hotkey_dict(self) -> Self:
         """
         Builds a dictionary for easier tracking of key presses of keys 
         contained in the modifier hotkey.
-
-        Args: 
-            Self (KeyLayersItem): an istance of KeyLayersItem
-        Returns: 
-            KeyLayersItem: an istance of KeyLayersItem
         """
         self.mod_hotkey_dict = {key: False for key in self.mod_hotkey}
         return self
@@ -61,3 +53,20 @@ class Profile(ConfigModel):
 class Profiles(ConfigModel):
     active_profile_name: str
     profiles: dict[str, Profile]
+
+class CommandsItem(ConfigModel):
+    hotkey: conlist(str, min_length = 1)  # type: ignore
+    hotkey_str: str = Field(default = "", repr = False, exclude = True)
+
+    @model_validator(mode = "after")
+    def build_command_hotkey_str(self) -> Self:
+        """
+        Transforms a list[str] to a str joined by "+" 
+         (keyboard library's format for hotkeys) 
+        """
+        self.hotkey_str = HOTKEY_JOIN_CHARACTER.join(self.hotkey)
+        return self
+
+
+class Commands(ConfigModel):
+    quit: CommandsItem

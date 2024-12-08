@@ -1,39 +1,55 @@
-from json_utils import edit_json_key, read_json_active_profile
-from models.profiles import Profiles, Profile
+from config_utils import CONFIG_PATH, edit_config_key, read_config_file
+from pydantic import FilePath
+from models import Profiles, Profile
 
-def save_profile(profiles_json_path: str, profile: Profile) -> bool | None:
+# Constants
+PROFILES_PATH: FilePath = FilePath(CONFIG_PATH + "profiles.json")
+
+def read_active_profile() -> Profile | None:
     """   
-    Saves a profile in the json file.
+    Returns a Profile model of the current active profile from file.
+    """
+    profiles = read_config_file(PROFILES_PATH, Profiles)
+    if not profiles:
+        return None
+
+    try:
+
+        active_profile_name = profiles.active_profile_name
+        if not any(active_profile_name == profile_names for profile_names in profiles.profiles.keys()):
+            print(f"No active profile called \"{active_profile_name}\" found in {PROFILES_PATH}.")
+            print("Defaulting to first profile.")
+            active_profile_name = next(iter(profiles.profiles))
+            if not edit_config_key(PROFILES_PATH, Profiles, ["active_profile_name"], active_profile_name):
+                return None
+        
+        active_profile = profiles.profiles[active_profile_name]
+        return active_profile
     
-    If a profile in profiles_json_path contains the same name as the given profile, 
-    it overwrites it.
+    except Exception as err:
+        print(f"Error: {err}")
+        return None
 
-    Args: 
-        profiles_json_path (str): the profile file's path.
-        profile (Profile): the profile to save.
-    Returns: 
-        bool | None: True if json_data is validated against a pydantic model,
-        None if an error occurs.
-    """
-
-    return edit_json_key(profiles_json_path, Profiles, ["profiles"][profile.name], profile)
-
-def remove_profile(profiles_json_path: str, profile_name: str) -> bool | None:
-    return edit_json_key(profiles_json_path, Profiles, ["profiles"][profile_name], "")
-
-def switch_profile(profiles_json_path: str, profile_name: str) -> Profile | None:
+def save_profile(profile: Profile) -> bool | None:
     """   
-    Changes the active profile name on the given path and returns active profile
-    as a Profile istance.
-
-    Args: 
-        profiles_json_path (str): the profile file's path
-        profile_name: the profile's name which the user is switching to
-    Returns: 
-        Profile | None: An istance of Profile class validated against a pydantic model,
-        None if an error occurs. 
+    Saves a profile to file.
+        
+    If a profile in the file contains the same name as the given profile, 
+    it overwrites it.
     """
-    if not edit_json_key(profiles_json_path, Profiles, ["active_profile_name"], profile_name):
+    return edit_config_key(PROFILES_PATH, Profiles, ["profiles", f"{profile.name}"], profile)
+
+def switch_profile(profile_name: str) -> Profile | None:
+    """   
+    Switches to profile with the given name.
+    """
+    if not edit_config_key(PROFILES_PATH, Profiles, ["active_profile_name"], profile_name):
         return None
     
-    return read_json_active_profile(profiles_json_path)
+    return read_active_profile()
+
+def remove_profile(profile_name: str) -> bool | None:
+    """
+    Removes a profile from file.
+    """
+    return edit_config_key(PROFILES_PATH, Profiles, ["profiles", f"{profile_name}"], "")
