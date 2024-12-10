@@ -1,7 +1,6 @@
 import keyboard
 from controllers.key_handler import handle_mod_hotkey
-from controllers.profile_handler import read_active_profile
-from controllers.commands_handler import read_commands
+from controllers.models_handler import read_active_profile, read_commands
 
 def main() -> None:
     profile = read_active_profile()

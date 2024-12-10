@@ -3,9 +3,8 @@ from typing import TypeAlias, Self, Literal
 from pydantic import BaseModel, ConfigDict, model_validator, constr, Field, conlist
 
 # Type aliases
-KeyRemapsValues: TypeAlias = list[dict[str, str]]
 ModHotkeyValues: TypeAlias = list[str]
-KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | KeyRemapsValues]]
+KeyLayersValues: TypeAlias = list[dict[str, ModHotkeyValues | str | dict[str, str]]]
 ProfilesValues: TypeAlias = dict[str, KeyLayersValues]
 CommandsJson: TypeAlias = dict[str, dict[str, str]]
 
@@ -18,15 +17,11 @@ HOTKEY_JOIN_CHARACTER = '+'
 class ConfigModel(BaseModel):
     model_config = ConfigDict(extra = "forbid", strict = True, revalidate_instances="always")
 
-class KeyRemapsItem(ConfigModel):
-    key_src: constr(min_length = 1) # type: ignore
-    key_dst: constr(min_length = 1) # type: ignore
-
 class KeyLayersItem(ConfigModel):
     mod_hotkey: conlist(str, min_length = 1) # type: ignore
     mod_hotkey_dict: dict[str, bool] = Field(default = {}, repr = False, exclude = True)
     mod_mode: Literal[SWITCH_MODE_NAME, LOCK_MODE_NAME] # type: ignore
-    key_remaps: list[KeyRemapsItem]
+    key_remaps: dict[str, str]
     is_active: bool = Field(default = False, repr = False, exclude = True)
         
     @model_validator(mode = "after")

@@ -7,15 +7,15 @@ def set_key_layer_state(key_layer: KeyLayersItem, activate: bool) -> None:
     """
     key_layer.is_active = activate
 
-    for key_remap in key_layer.key_remaps:
+    for key_src, key_dst in key_layer.key_remaps.items():
         if activate:
-            keyboard.remap_key(key_remap.key_src, key_remap.key_dst)
+            keyboard.remap_key(key_src, key_dst)
         else:
-            keyboard.unremap_key(key_remap.key_src)
+            keyboard.unremap_key(key_src) # type: ignore
 
 def handle_modifier_lock(key_layer: KeyLayersItem) -> None:
     """   
-    Activates/deactivates key layer based on modifier hotkey lock mode.
+    Activates/deactivates key layer based on modifier hotkey lock mode
     """
     if all(key_layer.mod_hotkey_dict.values()):
         set_key_layer_state(key_layer, not key_layer.is_active)

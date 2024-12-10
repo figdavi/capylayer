@@ -1,9 +1,10 @@
 from config_utils import CONFIG_PATH, edit_config_key, read_config_file
 from pydantic import FilePath
-from models import Profiles, Profile
+from models import Profiles, Profile, Commands
 
 # Constants
 PROFILES_PATH: FilePath = FilePath(CONFIG_PATH + "profiles.json")
+COMMANDS_PATH: FilePath = FilePath(CONFIG_PATH + "commands.json")
 
 def read_active_profile() -> Profile | None:
     """   
@@ -53,3 +54,20 @@ def remove_profile(profile_name: str) -> bool | None:
     Removes a profile from file.
     """
     return edit_config_key(PROFILES_PATH, Profiles, ["profiles", f"{profile_name}"], "")
+
+def read_commands() -> Commands | None:
+    """   
+    Returns a Commands model from file.
+    """
+    try:
+        return read_config_file(COMMANDS_PATH, Commands)
+    
+    except Exception as err:
+        print(f"Error: {err}")
+        return None
+    
+def save_commands(commands: Commands) -> bool | None:
+    """   
+    Saves quit hotkey
+    """
+    return edit_config_key(COMMANDS_PATH, Commands, ["quit", "hotkey"], commands.quit.hotkey)

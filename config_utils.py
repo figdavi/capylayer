@@ -5,11 +5,11 @@ from models import Profiles, Commands
 # Type Aliases
 ModelType = Type[Profiles] | Type[Commands]
 
-# Constants
-DEFAULT_QUIT_HOTKEY = ["ctrl", "shift", "caps lock"]
-CONFIG_PATH = "./config/"
-
 T = TypeVar('T', bound = Profiles | Commands)
+
+# Constants
+CONFIG_PATH = "./config/"
+DEFAULT_QUIT_HOTKEY = ["ctrl", "shift", "caps lock"]
 
 def read_config_file(file_path: FilePath, model_type: ModelType) -> T | None:
     """   
@@ -39,7 +39,7 @@ def write_config_file(file_path: FilePath, model_type: ModelType, data: dict) ->
     except FileNotFoundError:
         print(f"Error: File not found in {file_path}")
         return None
-    except Exception as err:
+    except (ValidationError, Exception) as err:
         print(f"Error: {err}")
         return None
 
@@ -87,7 +87,7 @@ def remove_config_key(file_path: FilePath, model_type: ModelType, nested_keys: l
     try:
         for key in nested_keys[:-1]:
             if not key in target_dict or not isinstance(target_dict[key], dict):
-                raise KeyError(f"Key \"{key}\" does not exist in {file_path}")
+                raise KeyError(f"Key \"{key}\" does not exist in {file_path} following {nested_keys}")
             
             target_dict = target_dict[key]
 
@@ -99,6 +99,6 @@ def remove_config_key(file_path: FilePath, model_type: ModelType, nested_keys: l
     except KeyError as err:
         print(f"Error: {err}")
         return None
-    except Exception as err:
+    except (ValidationError, Exception) as err:
         print(f"Error: {err}")
         return None
