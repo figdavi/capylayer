@@ -1,5 +1,5 @@
 from typing import Any, Type, TypeVar, cast
-from pydantic import ValidationError, FilePath
+from pydantic import ValidationError
 from models import Profiles, Commands
 
 # Type Aliases
@@ -8,10 +8,12 @@ ModelType = Type[Profiles] | Type[Commands]
 T = TypeVar('T', bound = Profiles | Commands)
 
 # Constants
-CONFIG_PATH = "./config/"
 DEFAULT_QUIT_HOTKEY = ["ctrl", "shift", "caps lock"]
+CONFIG_PATH = "./config/"
+PROFILES_PATH = CONFIG_PATH + "profiles.json"
+COMMANDS_PATH = CONFIG_PATH + "commands.json"
 
-def read_config_file(file_path: FilePath, model_type: ModelType) -> T | None:
+def read_config_file(file_path: str, model_type: ModelType) -> T | None:
     """   
     Reads a config file and returns it as a model.
     """ 
@@ -26,7 +28,7 @@ def read_config_file(file_path: FilePath, model_type: ModelType) -> T | None:
         print(f"Error: {err}")
         return None
     
-def write_config_file(file_path: FilePath, model_type: ModelType, data: dict) -> bool | None:
+def write_config_file(file_path: str, model_type: ModelType, data: dict) -> bool | None:
     """   
     Validates data against model and writes to file.
     """ 
@@ -43,7 +45,7 @@ def write_config_file(file_path: FilePath, model_type: ModelType, data: dict) ->
         print(f"Error: {err}")
         return None
 
-def edit_config_key(file_path: FilePath, model_type: ModelType, nested_keys: list[str], value: Any) -> bool | None:
+def edit_config_key(file_path: str, model_type: ModelType, nested_keys: list[str], value: Any) -> bool | None:
     """   
     Writes data (value) to a nested key to a config file.
     """
@@ -72,7 +74,7 @@ def edit_config_key(file_path: FilePath, model_type: ModelType, nested_keys: lis
         print(f"Error: {err}")
         return None
     
-def remove_config_key(file_path: FilePath, model_type: ModelType, nested_keys: list[str]) -> bool | None:
+def remove_config_key(file_path: str, model_type: ModelType, nested_keys: list[str]) -> bool | None:
     """   
     Removes a nested key from config file.
     """

@@ -1,8 +1,8 @@
-import keyboard
+import keyboard as kb
 
 def get_key_name(event):
-    print(event.name)
+    print(f"key name: {event.name}\tkey scan code: {event.scan_code}")
 
-keyboard.hook(get_key_name)
+kb.hook(get_key_name)
 
-keyboard.wait()
+kb.wait()

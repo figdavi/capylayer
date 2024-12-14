@@ -1,10 +1,5 @@
-from config_utils import CONFIG_PATH, edit_config_key, read_config_file
-from pydantic import FilePath
+from config_utils import PROFILES_PATH, COMMANDS_PATH, edit_config_key, read_config_file
 from models import Profiles, Profile, Commands
-
-# Constants
-PROFILES_PATH: FilePath = FilePath(CONFIG_PATH + "profiles.json")
-COMMANDS_PATH: FilePath = FilePath(CONFIG_PATH + "commands.json")
 
 def read_active_profile() -> Profile | None:
     """   

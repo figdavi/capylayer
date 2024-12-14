@@ -1,8 +1,8 @@
 {
-    "active_profile_name": "preset_1",
+    "active_profile_name": "workman",
     "profiles": {
-        "preset_1": {
-            "name": "preset_1",
+        "compact_utils": {
+            "name": "compact_utils",
             "key_layers": [
                 {
                     "mod_hotkey": [
@@ -10,10 +10,14 @@
                     ],
                     "mod_mode": "switch",
                     "key_remaps": {
-                        "w": "up",
-                        "a": "left",
-                        "s": "down",
-                        "d": "right"
+                        "i": "up",
+                        "j": "left",
+                        "k": "down",
+                        "l": "right",
+                        "e": "page up",
+                        "s": "home",
+                        "d": "page down",
+                        "f": "end"
                     }
                 }
             ]
@@ -24,7 +28,8 @@
                 {
                     "mod_hotkey": [
                         "shift",
-                        "caps lock"
+                        "caps lock",
+                        "1"
                     ],
                     "mod_mode": "lock",
                     "key_remaps": {
@@ -38,7 +43,6 @@
                         "i": "c",
                         "o": "r",
                         "p": "l",
-                        "a": "a",
                         "s": "o",
                         "d": "e",
                         "f": "u",
@@ -55,7 +59,46 @@
                         "v": "k",
                         "b": "x",
                         "n": "b",
-                        "m": "m",
+                        ",": "w",
+                        ".": "v",
+                        "/": "z"
+                    }
+                }
+            ]
+        },
+        "workman": {
+            "name": "workman",
+            "key_layers": [
+                {
+                    "mod_hotkey": [
+                        "shift",
+                        "caps lock",
+                        "2"
+                    ],
+                    "mod_mode": "lock",
+                    "key_remaps": {
+                        "w": "d",
+                        "e": "r",
+                        "r": "w",
+                        "t": "b",
+                        "y": "j",
+                        "u": "f",
+                        "i": "u",
+                        "o": "p",
+                        "p": ";",
+                        "d": "h",
+                        "f": "t",
+                        "g": "g",
+                        "h": "y",
+                        "j": "n",
+                        "k": "e",
+                        "l": "o",
+                        ";": "i",
+                        "c": "m",
+                        "v": "c",
+                        "b": "v",
+                        "n": "k",
+                        "m": "l",
                         ",": "w",
                         ".": "v",
                         "/": "z"

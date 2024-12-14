@@ -15,7 +15,8 @@ A simple Python tool that uses the [keyboard](https://github.com/boppreh/keyboar
 - The modifier mode:
     - Switch: Temporarily activate a layer by holding the activate hotkey, similar to `Shift`.
     - Lock: Toggle a layer on/off by pressing the activate hotkey, similar to `CapsLock`.
-- A set of **Key Remaps**
+- A list of key remaps:
+    - source key -> destination key
 
 #### Key Remap
 - A source key (the key being remapped).
@@ -69,13 +70,7 @@ python main.py
 
 ## Future Improvements
 - Add a CLI with [Typer](https://github.com/fastapi/typer) + [Rich](https://github.com/Textualize/rich)
-- Design a way to check if key names exist as keys (keyboard library doesn't have a support to this by default)
+- Design a way to check if key names exist as keys
 - Error logging
-- Keylogger with heatmap
-- Implement better printing format for profile and commands classes
+- Implement support for key to symbol remapping
 - Create a pt-br README
-
-## Related Articles
-For an in-depth understanding of key layers, refer to:
-- [Extend layers by Dreymar](https://dreymar.colemak.org/layers-extend.html)
-- [Designing a Symbol Layer by Pascal Getreuer](https://getreuer.info/posts/keyboards/symbol-layer/index.html)
