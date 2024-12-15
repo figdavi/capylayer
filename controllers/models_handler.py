@@ -10,7 +10,6 @@ def read_active_profile() -> Profile | None:
         return None
 
     try:
-
         active_profile_name = profiles.active_profile_name
         if not any(active_profile_name == profile_names for profile_names in profiles.profiles.keys()):
             print(f"No active profile called \"{active_profile_name}\" found in {PROFILES_PATH}.")

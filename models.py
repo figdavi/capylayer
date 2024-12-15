@@ -1,4 +1,3 @@
-
 from typing import TypeAlias, Self, Literal
 from pydantic import BaseModel, ConfigDict, model_validator, Field, conlist
 import keyboard as kb

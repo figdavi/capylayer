@@ -1,5 +1,5 @@
 # Layermp
-A simple Python tool that uses the [keyboard](https://github.com/boppreh/keyboard/) library to create **key layers**.
+A simple Python tool to create **key layers** activated by hotkeys.
 
 ## Features
 - **Customizable profiles**: Easily create, delete, modify and transition between profiles.
@@ -23,7 +23,6 @@ A simple Python tool that uses the [keyboard](https://github.com/boppreh/keyboar
 - A destination key (the key it becomes when the key layer is active).
 
 ### Example:
-
 - Let a profile named "Meaningless" contain 1 key layer:
 - Key Layer:
     - Modifier hotkey: `CapsLock`
@@ -46,24 +45,25 @@ While `CapsLock` is **held**, the key layer is active (Switch mode):
     \___________\ \/_____//_____//_____/  
 ```
 
-## Usage
+## Installation
 
-### Requirements 
 - Python 3.12+ needed ([Download Page](https://www.python.org/downloads/))
-- Keyboard library needed ([GitHub Repository](https://github.com/boppreh/keyboard/?tab=readme-ov-file#usage))
-- Pydantic library needed ([Install Page](https://docs.pydantic.dev/latest/install/))
 
-
-**Note:** Currently, Layermp can only be used if you manually modify the json files in the config folder.
-
-### Steps
-1. Clone or download the repository:
+1. Clone the repository:
 ```bash
 git clone https://github.com/figdavi/Layermp.git
 cd layermp
 ```
 
-2. Run the program:
+2. Install requirements:
+```bash
+pip install -r requirements.txt
+```
+
+## Usage
+1. Modify/Add profiles in config/profiles.json
+
+2. In the project folder run:
 ```bash
 python main.py
 ```

@@ -13,8 +13,7 @@ def main() -> None:
 
     if commands:
         print(f"\nPress \"{commands.quit.hotkey_str}\" to quit")
-        kb.wait(commands.quit.hotkey_str) 
-    
+        kb.wait(commands.quit.hotkey_str)
 
 if __name__ == "__main__":
     main()
