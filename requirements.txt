@@ -1,5 +1,0 @@
-annotated-types==0.7.0
-keyboard==0.13.5
-pydantic==2.10.3
-pydantic_core==2.27.1
-typing_extensions==4.12.2

@@ -55,3 +55,4 @@ capylayer
 - Error logging
 - Implement support for key to symbol remapping
 - Create a pt-br README
+- Add dist files to repo
