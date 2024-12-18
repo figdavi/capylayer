@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "capylayer"
+version = "0.1.0"
+description = "Create key layers to your keyboard"
+authors = ["figdavi <figueiredodavi@outlook.com>"]
+repository = "https://github.com/figdavi/capylayer"
+readme = "README.md"
+license = "MIT"
+keywords = [
+    "keyboard", 
+    "keyboard-layout", 
+    "key-layers", 
+    "remapping-keys"
+]
+
+
+[tool.poetry.scripts]
+capylayer = "capylayer.main:main"
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+keyboard = "^0.13.5"
+pydantic = "^2.10.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
