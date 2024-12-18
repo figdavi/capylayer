@@ -1,13 +1,15 @@
 from capylayer.models.utils import edit_config_key, read_config_file
 from capylayer.models.models import Profiles, Profile, Commands
+from pathlib import Path
 import importlib.resources
 
 # Config files
-config_dir = importlib.resources.files("capylayer.models.config")
+config_dir_traversable = importlib.resources.files("capylayer.models.config")
+config_dir = Path(str(config_dir_traversable))
 profiles_path = config_dir / "profiles.json"
 commands_path = config_dir / "commands.json"
 
-def read_active_profile(file_path: str = profiles_path) -> Profile | None:
+def read_active_profile(file_path: Path = profiles_path) -> Profile | None:
     """   
     Returns a Profile model of the current active profile from file.
     """
@@ -31,7 +33,7 @@ def read_active_profile(file_path: str = profiles_path) -> Profile | None:
         print(f"Error: {err}")
         return None
 
-def save_profile(profile: Profile, file_path: str = profiles_path) -> bool | None:
+def save_profile(profile: Profile, file_path: Path = profiles_path) -> bool | None:
     """   
     Saves a profile to file.
         
@@ -40,7 +42,7 @@ def save_profile(profile: Profile, file_path: str = profiles_path) -> bool | Non
     """
     return edit_config_key(file_path, Profiles, ["profiles", f"{profile.name}"], profile)
 
-def switch_profile(profile_name: str, file_path: str = profiles_path) -> Profile | None:
+def switch_profile(profile_name: str, file_path: Path = profiles_path) -> Profile | None:
     """   
     Switches to profile with the given name.
     """
@@ -49,13 +51,13 @@ def switch_profile(profile_name: str, file_path: str = profiles_path) -> Profile
     
     return read_active_profile()
 
-def remove_profile(profile_name: str, file_path: str = profiles_path) -> bool | None:
+def remove_profile(profile_name: str, file_path: Path = profiles_path) -> bool | None:
     """
     Removes a profile from file.
     """
     return edit_config_key(file_path, Profiles, ["profiles", f"{profile_name}"], "")
 
-def read_commands(file_path: str = commands_path) -> Commands | None:
+def read_commands(file_path: Path = commands_path) -> Commands | None:
     """   
     Returns a Commands model from file.
     """
@@ -66,7 +68,7 @@ def read_commands(file_path: str = commands_path) -> Commands | None:
         print(f"Error: {err}")
         return None
     
-def save_commands(commands: Commands, file_path: str = commands_path) -> bool | None:
+def save_commands(commands: Commands, file_path: Path = commands_path) -> bool | None:
     """   
     Saves quit hotkey
     """

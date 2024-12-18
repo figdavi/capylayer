@@ -9,8 +9,8 @@ ProfilesValues: TypeAlias = dict[str, KeyLayersValues]
 CommandsJson: TypeAlias = dict[str, dict[str, str]]
 
 # Constants
-SWITCH_MODE_NAME: str = "switch"
-LOCK_MODE_NAME: str = "lock"
+SWITCH_MODE_NAME = "switch"
+LOCK_MODE_NAME = "lock"
 INDENT_STR = "   "
 
 class ConfigModel(BaseModel):
