@@ -38,11 +38,11 @@ While `CapsLock` is **held**, the key layer is active:
 
 1. Install via pip:
 ```bash
-pip install git+https://github.com/figdavi/capylayer.git
+pip install capylayer
 ```
 
 ## Usage
-1. Add profiles in capylayer/models/config/profiles.json
+1. Add profiles in capylayer/models/config/profiles.json (TUI is not implemented currently)
 
 2. Then run:
 ```bash

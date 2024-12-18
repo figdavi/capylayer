@@ -1,11 +1,12 @@
 from capylayer.models.utils import edit_config_key, read_config_file
 from capylayer.models.models import Profiles, Profile, Commands
+from typing import cast
 from pathlib import Path
-import importlib.resources
+from importlib.resources import files
 
 # Config files
-config_dir_traversable = importlib.resources.files("capylayer.models.config")
-config_dir = Path(str(config_dir_traversable))
+config_dir_traversable = files("capylayer.models.config")
+config_dir = cast(Path, config_dir_traversable)
 profiles_path = config_dir / "profiles.json"
 commands_path = config_dir / "commands.json"
 
