@@ -1,7 +1,7 @@
 from typing import Any, Type, TypeVar, cast
 from pydantic import ValidationError
 from capylayer.models.models import Profiles, Commands
-from pathlib import Path
+from importlib.resources.abc import Traversable
 
 # Type Aliases
 ModelType = Type[Profiles] | Type[Commands]
@@ -10,7 +10,7 @@ T = TypeVar('T', bound = Profiles | Commands)
 # Constants
 DEFAULT_QUIT_HOTKEY: list[str] = ["ctrl", "shift", "caps lock"]
 
-def read_config_file(file_path: Path, model_type: ModelType) -> T | None:
+def read_config_file(file_path: Traversable, model_type: ModelType) -> T | None:
     """   
     Reads a config file and returns it as a model.
     """ 
@@ -25,7 +25,7 @@ def read_config_file(file_path: Path, model_type: ModelType) -> T | None:
         print(f"Error: {err}")
         return None
     
-def write_config_file(file_path: Path, model_type: ModelType, data: dict) -> bool | None:
+def write_config_file(file_path: Traversable, model_type: ModelType, data: dict) -> bool | None:
     """   
     Validates data against model and writes to file.
     """ 
@@ -42,7 +42,7 @@ def write_config_file(file_path: Path, model_type: ModelType, data: dict) -> boo
         print(f"Error: {err}")
         return None
 
-def edit_config_key(file_path: Path, model_type: ModelType, nested_keys: list[str], value: Any) -> bool | None:
+def edit_config_key(file_path: Traversable, model_type: ModelType, nested_keys: list[str], value: Any) -> bool | None:
     """   
     Writes data (value) to a nested key to a config file.
     """
@@ -71,7 +71,7 @@ def edit_config_key(file_path: Path, model_type: ModelType, nested_keys: list[st
         print(f"Error: {err}")
         return None
     
-def remove_config_key(file_path: Path, model_type: ModelType, nested_keys: list[str]) -> bool | None:
+def remove_config_key(file_path: Traversable, model_type: ModelType, nested_keys: list[str]) -> bool | None:
     """   
     Removes a nested key from config file.
     """

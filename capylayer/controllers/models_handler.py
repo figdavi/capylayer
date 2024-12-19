@@ -1,16 +1,14 @@
 from capylayer.models.utils import edit_config_key, read_config_file
 from capylayer.models.models import Profiles, Profile, Commands
-from typing import cast
-from pathlib import Path
 from importlib.resources import files
+from importlib.resources.abc import Traversable
 
 # Config files
-config_dir_traversable = files("capylayer.models.config")
-config_dir = cast(Path, config_dir_traversable)
-profiles_path = config_dir / "profiles.json"
-commands_path = config_dir / "commands.json"
+config_dir = files("capylayer.models.config")
+profiles_path = config_dir.joinpath("profiles.json")
+commands_path = config_dir.joinpath("commands.json")
 
-def read_active_profile(file_path: Path = profiles_path) -> Profile | None:
+def read_active_profile(file_path: Traversable = profiles_path) -> Profile | None:
     """   
     Returns a Profile model of the current active profile from file.
     """
@@ -34,7 +32,7 @@ def read_active_profile(file_path: Path = profiles_path) -> Profile | None:
         print(f"Error: {err}")
         return None
 
-def save_profile(profile: Profile, file_path: Path = profiles_path) -> bool | None:
+def save_profile(profile: Profile, file_path: Traversable = profiles_path) -> bool | None:
     """   
     Saves a profile to file.
         
@@ -43,7 +41,7 @@ def save_profile(profile: Profile, file_path: Path = profiles_path) -> bool | No
     """
     return edit_config_key(file_path, Profiles, ["profiles", f"{profile.name}"], profile)
 
-def switch_profile(profile_name: str, file_path: Path = profiles_path) -> Profile | None:
+def switch_profile(profile_name: str, file_path: Traversable = profiles_path) -> Profile | None:
     """   
     Switches to profile with the given name.
     """
@@ -52,13 +50,13 @@ def switch_profile(profile_name: str, file_path: Path = profiles_path) -> Profil
     
     return read_active_profile()
 
-def remove_profile(profile_name: str, file_path: Path = profiles_path) -> bool | None:
+def remove_profile(profile_name: str, file_path: Traversable = profiles_path) -> bool | None:
     """
     Removes a profile from file.
     """
     return edit_config_key(file_path, Profiles, ["profiles", f"{profile_name}"], "")
 
-def read_commands(file_path: Path = commands_path) -> Commands | None:
+def read_commands(file_path: Traversable = commands_path) -> Commands | None:
     """   
     Returns a Commands model from file.
     """
@@ -69,7 +67,7 @@ def read_commands(file_path: Path = commands_path) -> Commands | None:
         print(f"Error: {err}")
         return None
     
-def save_commands(commands: Commands, file_path: Path = commands_path) -> bool | None:
+def save_commands(commands: Commands, file_path: Traversable = commands_path) -> bool | None:
     """   
     Saves quit hotkey
     """
