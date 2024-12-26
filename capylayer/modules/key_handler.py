@@ -1,5 +1,5 @@
+from .models import KeyLayer, ModModeEnum
 import keyboard as kb
-from capylayer.models.models import KeyLayer, SWITCH_MODE_NAME, LOCK_MODE_NAME
 
 def set_key_layer_state(key_layer: KeyLayer, activate: bool) -> None:
     """   
@@ -37,9 +37,9 @@ def handle_mod_mode(key_layer: KeyLayer) -> None:
     """   
     Calls corresponding handler modifier function based on modifier hotkey mode.
     """    
-    if key_layer.mod_mode == SWITCH_MODE_NAME:
+    if key_layer.mod_mode == ModModeEnum.switch:
         handle_modifier_switch(key_layer)   
-    elif key_layer.mod_mode == LOCK_MODE_NAME:
+    elif key_layer.mod_mode == ModModeEnum.lock:
         handle_modifier_lock(key_layer)
 
 def handle_mod_hotkey(event: kb.KeyboardEvent, key_layers: list[KeyLayer]) -> None:
@@ -49,6 +49,7 @@ def handle_mod_hotkey(event: kb.KeyboardEvent, key_layers: list[KeyLayer]) -> No
     
     # bool on key_layer.mode_hotkey_dict is used differently depending on key_layer.mod_mode
     for key_layer in key_layers:
-        if event.scan_code in key_layer.mod_hotkey_dict:
-            key_layer.mod_hotkey_dict[event.scan_code] = (event.event_type == kb.KEY_DOWN)
-            handle_mod_mode(key_layer)    
+        if event.name in key_layer.mod_hotkey_dict:
+            key_layer.mod_hotkey_dict[event.name] = (event.event_type == kb.KEY_DOWN)
+            print(key_layer.mod_hotkey_dict)
+            handle_mod_mode(key_layer)
