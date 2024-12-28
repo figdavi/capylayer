@@ -3,8 +3,8 @@
     "key_layers": [
         {
             "mod_hotkey": [
-                "shift",
-                "caps lock"
+                "LShift",
+                "CapsLock"
             ],
             "mod_mode": "lock",
             "key_remaps": {

@@ -11,10 +11,10 @@ def read_data_file(file_path: Path, model_type: Type[DataModel]) -> DataModel | 
         return model_type.model_validate_json(file_path.read_text())
 
     except FileNotFoundError:
-        print(f"Error: File not found in {file_path}")
+        print(f"Read Data Error: File not found in {file_path}")
         return False
     except (ValidationError, Exception) as err:
-        print(f"Error: {err}")
+        print(f"Read Data Error: {err}")
         return False
     
 def write_data_file(file_path: Path, model_type: Type[DataModel], data: Any) -> bool:
@@ -26,14 +26,18 @@ def write_data_file(file_path: Path, model_type: Type[DataModel], data: Any) -> 
     """ 
     try:
         data_model = model_type.model_validate(data)
-        file_path.write_text(data_model.model_dump_json(indent = 4))
+        file_path.write_text(
+            data_model.model_dump_json(
+                indent = 4, exclude = {"key_layers": {"__all__": {"mod_hotkey_dict", "is_active"}}}
+            )
+        )
         return True
 
     except FileNotFoundError:
-        print(f"Error: File not found in {file_path}")
+        print(f"Write Data Error: File not found in {file_path}")
         return False
     except (ValidationError, Exception) as err:
-        print(f"Error: {err}")
+        print(f"Write Data Error: {err}")
         return False
 
 def edit_data_key(file_path: Path, model_type: Type[DataModel], nested_keys: list[str], value: Any) -> bool:
@@ -58,11 +62,8 @@ def edit_data_key(file_path: Path, model_type: Type[DataModel], nested_keys: lis
 
         return write_data_file(file_path, model_type, data_dict)
     
-    except KeyError as err:
-        print(f"Error: {err}")
-        return False
-    except (Exception, ValidationError) as err:
-        print(f"Error: {err}")
+    except (Exception, ValidationError, KeyError) as err:
+        print(f"Edit Data Error: {err}")
         return False
     
 def delete_file(file_path: Path) -> bool:
@@ -73,7 +74,7 @@ def delete_file(file_path: Path) -> bool:
         file_path.unlink()
         return True
     except FileNotFoundError:
-        print(f"Error: File not found in {file_path}")
+        print(f"Delete Error: File not found in {file_path}")
         return False
     
 def find_json_file(dir_path: Path, file_name: str) -> Path | Literal[False]:
@@ -83,5 +84,5 @@ def find_json_file(dir_path: Path, file_name: str) -> Path | Literal[False]:
     try:
         return next(dir_path.glob(f"{file_name}.json"))
     except StopIteration:
-        print(f"Error: file \"{file_name}.json\" not found in {dir_path}")
+        print(f"JSON Error: file \"{file_name}.json\" not found in {dir_path}")
         return False

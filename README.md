@@ -1,12 +1,19 @@
 # capylayer
 A simple Python tool to create **key layers** activated by modifier hotkeys.
 
-Capylayer allows you to remap specified keys to build layers for your keyboard. Layers are activated by modifier hotkeys and are contained in profiles. You can build layouts like QWERTY, Colemak, Dvorak, a symbol layer, or any other useful remapping.
+Layers are activated by defined hotkeys. You can build layouts like QWERTY, symbol layers, Dvorak, etc
+
+## Platform support
+### Windows
+On windows, an AHK script is used to simulate key remapping. Use AHK key name syntax for it to work.
+
+### Other platforms
+On Linux and MacOS, for now, [keyboard](https://github.com/boppreh/keyboard/) library is used to simulate the key remapping action, unfortunately it does not work as intended/fully for a range of keys. For example, modifier keys like `Alt` when remapped by other keys will not fully work (E.g. `Alt` + `F4` won't work).
 
 ## Modifier mode
 A modifier hotkey can be set to one of two modes:
-- **Switch**: Temporarily activate a layer by *holding* the modifier hotkey, similar to Shift.
-- **Lock**: Toggle a layer on/off by *pressing* the modifier hotkey, similar to CapsLock.
+- **Switch**: Activate a layer by *holding*, similar to Shift.
+- **Lock**: Toggle a layer on/off by *pressing*, similar to CapsLock.
 
 ## Example
 
@@ -42,7 +49,7 @@ pip install capylayer
 ```
 
 ## Usage
-1. Add profiles in capylayer/models/config/profiles.json (TUI is not implemented currently)
+1. Add profiles in capylayer/modules/data/profiles (TUI is not implemented currently)
 
 2. Then run:
 ```bash
@@ -53,6 +60,7 @@ capylayer
 - Add a TUI with [Textual](https://github.com/Textualize/textual)
 - Design a way to check if key names exist as keys
 - Error logging
-- Implement support for key to symbol remapping
+- Implement better key remapping for Linux and MacOS
+- Compile script dynamically
 - Create a pt-br README
 - Add dist files to repo

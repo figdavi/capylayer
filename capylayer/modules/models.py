@@ -22,18 +22,16 @@ class KeyLayer(DataModel):
     mod_hotkey: Hotkey
     mod_mode: ModModeEnum
     key_remaps: dict[str, str]
+    
+    mod_hotkey_dict: dict[str, bool] = Field(default = {}, repr = False) # after
+    is_active: bool = Field(default = False, repr = False) # after
 
-    mod_hotkey_dict: dict[str, bool] = Field(default = {}, repr = False, exclude = True)
-    is_active: bool = Field(default = False, repr = False, exclude = True)
-        
     @model_validator(mode = "after")
-    def build_mod_hotkey_dict(self) -> Self:
+    def _build_mod_hotkey_dict(self) -> Self:
         """
         Builds a dictionary for easier tracking of key presses of keys 
         contained in the modifier hotkey.
         """
-
-        # keyboard.key_to_scan_codes() returns a tuple, where first item is the key scan code
         self.mod_hotkey_dict = {key: False for key in self.mod_hotkey}
         return self
     
@@ -43,14 +41,14 @@ class KeyLayer(DataModel):
         """
         super().__setattr__(name, value)
         if name == "mod_hotkey":
-            self.build_mod_hotkey_dict() # type: ignore
+            self._build_mod_hotkey_dict() # type: ignore
 
     def __str__(self, indent_quant: int = 0):
         indent = indent_quant * INDENT_STR
         sub_indent = (indent_quant + 1) * INDENT_STR
 
         key_layer_str = f"{indent}├──mod_hotkey: {self.mod_hotkey}"
-        key_layer_str += f"\n{indent}├──mod_mode: {self.mod_mode}"
+        key_layer_str += f"\n{indent}├──mod_mode: {self.mod_mode.value}"
         key_layer_str += f"\n{indent}└──key_remaps:"
         key_layer_str += ''.join(f"\n{sub_indent}{key_src}: {key_dst}" for key_src, key_dst in self.key_remaps.items())
     

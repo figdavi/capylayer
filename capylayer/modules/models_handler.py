@@ -2,12 +2,30 @@ from .io_utils import *
 from .models import Profile, ProgramConfig
 from typing import Literal, cast
 from pathlib import Path
+import platform
+
 
 # Data files
 modules_dir = Path(__file__).parent.resolve()
 data_dir = modules_dir / "data"
 program_config_path = data_dir / "program_config.json"
 profiles_dir = data_dir / "profiles"
+
+def hook_profile(profile: Profile) -> bool:
+    if not profile or not profile.key_layers:
+        return False
+    
+    system = platform.system()
+
+    if system == "Windows":
+        from ._win_handler import start_key_handler
+    elif system == "Linux" or system == "Darwin":
+        from ._darwin_nix_handler import start_key_handler
+    else:
+        raise OSError(f"Error: Platform {system} is unsupported")
+    
+    start_key_handler(profile)
+    return True
 
 def read_onload_profile(program_config_path: Path = program_config_path, dir_path: Path = profiles_dir) -> Profile | Literal[False]:
     """   

@@ -3,18 +3,18 @@
     "key_layers": [
         {
             "mod_hotkey": [
-                "caps lock"
+                "CapsLock"
             ],
             "mod_mode": "switch",
             "key_remaps": {
-                "i": "up",
-                "j": "left",
-                "k": "down",
-                "l": "right",
-                "e": "page up",
-                "s": "home",
-                "d": "page down",
-                "f": "end"
+                "i": "Up",
+                "j": "Left",
+                "k": "Down",
+                "l": "Right",
+                "e": "PgUp",
+                "s": "Home",
+                "d": "PgDn",
+                "f": "End"
             }
         }
     ] 
