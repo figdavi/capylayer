@@ -1,11 +1,11 @@
 # capylayer
-A simple Python tool to create **key layers** activated by modifier hotkeys.
+A simple python package to create **key layers** activated by modifier hotkeys.
 
-Layers are activated by defined hotkeys. You can build layouts like QWERTY, symbol layers, Dvorak, etc
+Layers are activated by defined hotkeys. You can build mappings for layouts like QWERTY, Dvorak, symbol layers, etc.
 
 ## Platform support
 ### Windows
-On windows, an AHK script is used to simulate key remapping. Use AHK key name syntax for it to work.
+On windows, an AHK script is used to simulate key remapping. Use AHK [key name syntax](https://documentation.help/AutoHotkey-en/KeyList.htm#keyboard) for it to work.
 
 ### Other platforms
 On Linux and MacOS, for now, [keyboard](https://github.com/boppreh/keyboard/) library is used to simulate the key remapping action, unfortunately it does not work as intended/fully for a range of keys. For example, modifier keys like `Alt` when remapped by other keys will not fully work (E.g. `Alt` + `F4` won't work).
@@ -22,14 +22,14 @@ A modifier hotkey can be set to one of two modes:
     - **Modifier hotkey**: `CapsLock`  
     - **Modifier mode**: Switch  
     - **Key remaps**:
-        - `a` → `delete`
-        - `s` → `f1`
-        - `d` → `up`
+        - `a` → `Delete`
+        - `s` → `F1`
+        - `d` → `Up`
 
 While `CapsLock` is **held**, the key layer is active:
 ```
                      _____  _____  _____ 
-                    /\ del \\  f1 \\  ↑  \ 
+                    /\ Del \\  F1 \\  ↑  \ 
                     \ \_____\\_____\\_____\
                      \/_____//_____//_____/
                       /      /      / 
@@ -43,7 +43,7 @@ While `CapsLock` is **held**, the key layer is active:
 
 - Python 3.12+ needed ([Download Page](https://www.python.org/downloads/))
 
-1. Install via pip:
+- Install via pip:
 ```bash
 pip install capylayer
 ```
@@ -60,6 +60,7 @@ capylayer
 - Add a TUI with [Textual](https://github.com/Textualize/textual)
 - Design a way to check if key names exist as keys
 - Error logging
+- Key -> Hotkey remapping
 - Implement better key remapping for Linux and MacOS
 - Compile script dynamically
 - Create a pt-br README
