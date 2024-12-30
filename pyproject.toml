@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "capylayer"
-version = "0.1.2"
+version = "0.1.3"
 description = "Create key layers to your keyboard"
 authors = ["figdavi <figueiredodavi@outlook.com>"]
 repository = "https://github.com/figdavi/capylayer"
@@ -15,7 +15,7 @@ keywords = [
 
 
 [tool.poetry.scripts]
-capylayer = "capylayer.main:main"
+capylayer = "capylayer.__main__:main"
 
 
 [tool.poetry.dependencies]
