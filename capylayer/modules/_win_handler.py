@@ -47,7 +47,9 @@ def _close_process() -> None:
         process.terminate()
         process.wait()
         print("AHK script process terminated.")
-        return
+        return None
+    else:
+        print("\nNo found AHK script process to terminate.")
 
 # Closing child process at main process exit
 process = None
