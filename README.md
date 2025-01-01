@@ -1,7 +1,7 @@
 # capylayer
 A simple python package to create **key layers** activated by modifier hotkeys.
 
-Layers are activated by defined hotkeys. You can build mappings for layouts like QWERTY, Dvorak, symbol layers, etc.
+Layers are activated by defined hotkeys. You can build remappings for symbol layers, layouts like Dvorak, or any other customized layer.
 
 ## Platform support
 ### Windows
@@ -64,4 +64,5 @@ capylayer
 - Implement better key remapping for Linux and MacOS
 - Compile script dynamically
 - Create a pt-br README
+- Implement a dead key behaviour for accents
 - Add dist files to repo
