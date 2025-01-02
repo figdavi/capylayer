@@ -61,6 +61,7 @@ capylayer
 - Design a way to check if key names exist as keys
 - Error logging
 - Key -> Hotkey remapping
+- Key -> Text remapping (useful for LaTeX)
 - Implement better key remapping for Linux and MacOS
 - Compile script dynamically
 - Create a pt-br README
